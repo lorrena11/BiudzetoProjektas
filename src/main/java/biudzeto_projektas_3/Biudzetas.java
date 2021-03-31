@@ -2,6 +2,7 @@ package biudzeto_projektas_3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * čia saugomas sarasas
@@ -58,17 +59,82 @@ public class Biudzetas {
     }
 
     void atnaujintiIrasa(Irasas irasas) {
-        for (Irasas pajamuIrasas : pajamos) {
+        Scanner scanner = new Scanner(System.in);
+
+        for (PajamuIrasas pajamuIrasas : pajamos) {
             if (pajamuIrasas.equals(irasas)) {
-
+                System.out.println("Suma: " + pajamuIrasas.getSuma());
+                System.out.println("[1] - redaguoti, [2] - toliau");
+                int choice1 = scanner.nextInt();
+                if (choice1 == 1) {
+                    System.out.println("Įveskite naują reikšmę: ");
+                    double newSuma = scanner.nextDouble();
+                    pajamuIrasas.setSuma(newSuma);
+                }
+                System.out.println("Pajamų kategorija: " + pajamuIrasas.getKategorijaPajamu());
+                System.out.println("[1] - redaguoti, [2] - toliau");
+                int choice2 = scanner.nextInt();
+                if (choice2 == 1) {
+                    System.out.println("Įveskite naują reikšmę: ");
+                    String newKategorija = scanner.next();
+                    pajamuIrasas.setKomentaras(newKategorija);
+                }
+                System.out.println("Pajamų tipas: " + pajamuIrasas.getTipasPajamu());
+                System.out.println("[1] - redaguoti, [2] - toliau");
+                int choice3 = scanner.nextInt();
+                if (choice3 == 1) {
+                    System.out.println("Įveskite naują reikšmę: ");
+                    String newTipas = scanner.next();
+                    pajamuIrasas.setKomentaras(newTipas);
+                }
+                System.out.println("Komentaras: " + pajamuIrasas.getKomentaras());
+                System.out.println("[1] - redaguoti, [2] - toliau");
+                int choice4 = scanner.nextInt();
+                if (choice4 == 1) {
+                    System.out.println("Įveskite naują reikšmę: ");
+                    String newKomentaras = scanner.next();
+                    pajamuIrasas.setKomentaras(newKomentaras);
+                }
             }
         }
-        for (Irasas islaiduIrasas : islaidos) {
+
+        for (IslaiduIrasas islaiduIrasas : islaidos) {
             if (islaiduIrasas.equals(irasas)) {
+                System.out.println("Suma: " + islaiduIrasas.getSuma());
+                System.out.println("[1] - redaguoti, [2] - toliau");
+                int choice1 = scanner.nextInt();
+                if (choice1 == 1) {
+                    System.out.println("Įveskite naują reikšmę: ");
+                    double newSuma = scanner.nextDouble();
+                    islaiduIrasas.setSuma(newSuma);
+                }
+                System.out.println("Išlaidų kategorija: " + islaiduIrasas.getKategorijaIslaidu());
+                System.out.println("[1] - redaguoti, [2] - toliau");
+                int choice2 = scanner.nextInt();
+                if (choice2 == 1) {
+                    System.out.println("Įveskite naują reikšmę: ");
+                    String newKategorija = scanner.next();
+                    islaiduIrasas.setKategorijaIslaidu(newKategorija);
+                }
+                System.out.println("Išlaidų tipas: " + islaiduIrasas.getTipasIslaidu());
+                System.out.println("[1] - redaguoti, [2] - toliau");
+                int choice3 = scanner.nextInt();
+                if (choice3 == 1) {
+                    System.out.println("Įveskite naują reikšmę: ");
+                    String newTipas = scanner.next();
+                    islaiduIrasas.setTipasIslaidu(newTipas);
+                }
+                System.out.println("Komentaras: " + islaiduIrasas.getKomentaras());
+                System.out.println("[1] - redaguoti, [2] - toliau");
+                int choice4 = scanner.nextInt();
+                if (choice4 == 1) {
+                    System.out.println("Įveskite naują reikšmę: ");
+                    String newKomentaras = scanner.next();
+                    islaiduIrasas.setKomentaras(newKomentaras);
 
+                }
             }
         }
-
     }
 
 }

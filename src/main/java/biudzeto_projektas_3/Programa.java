@@ -10,23 +10,32 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Programa {
-    private static long pajamosId = 3L;
-    private static long islaidosId = 2L;
+    private static long idpajamos = 0;
+    private static long idislaidos = 0;
 
     public static void main(String[] args) {
         Biudzetas objB = new Biudzetas();
         List<Irasas> sablonai = IrasaiGenerator.generate();
         for (Irasas irasas : sablonai) {
             objB.pridetiIrasa(irasas);
+            if (irasas instanceof PajamuIrasas) {
+                idpajamos++;
+            } else if (irasas instanceof IslaiduIrasas) {
+                idislaidos++;
+            }
         }
 
         Scanner scanner = new Scanner(System.in);
         boolean runProgram = true;
 
         while (runProgram) {
+            System.out.println("**********************************************");
             System.out.println("Pasirinkite ka norite daryti: ");
             System.out.println(
-                    "[v] - visi irasai; [-] - ivesti islaidas; [+] - ivesti pajamas; [tp] ar [ti] - trinti irasa; [i+] ar [i-] - perziuret kuri nors pajamu ar islaidu irasa; [b] - balansas; [x] - iseiti.");
+                            "[v] - visi irasai; [-] - ivesti islaidas; [+] - ivesti pajamas; \n" +
+                            "[tp] ar [ti] - trinti irasa; [i+] ar [i-] - perziuret kuri nors pajamu ar islaidu irasa; \n" +
+                            "[r] - redaguoti kurį nors įrašą; [b] - balansas; [x] - iseiti.");
+            System.out.println("**********************************************");
             String komanda = scanner.next();
             switch (komanda) {
                 case "+":
@@ -38,20 +47,20 @@ public class Programa {
                     String tipas = scanner.next();
                     System.out.println("Įveskite komentarą: ");
                     String komentaras = scanner.next();
-                    objB.pridetiIrasa(new PajamuIrasas(pajamosId, LocalDateTime.now(), suma, komentaras, kategorija, tipas));
-                    pajamosId++;
+                    objB.pridetiIrasa(new PajamuIrasas(idpajamos, LocalDateTime.now(), suma, komentaras, kategorija, tipas));
+                    idpajamos++;
                     break;
                 case "-":
                     System.out.println("Iveskite islaidu suma: ");
-                    int islaiduSuma = scanner.nextInt();
+                    double islaiduSuma = scanner.nextDouble();
                     System.out.println("Iveskite islaidu kategoriją: ");
                     String islaiduKategorija = scanner.next();
                     System.out.println("Išlaidų tipas: ");
                     String islaiduTipas = scanner.next();
                     System.out.println("Įveskite komentarą: ");
                     String islaiduKomentaras = scanner.next();
-                    objB.pridetiIrasa(new IslaiduIrasas(islaidosId, LocalDateTime.now(), islaiduSuma, islaiduKomentaras, islaiduKategorija, islaiduTipas));
-                    islaidosId++;
+                    objB.pridetiIrasa(new IslaiduIrasas(idislaidos, LocalDateTime.now(), islaiduSuma, islaiduKomentaras, islaiduKategorija, islaiduTipas));
+                    idislaidos++;
                     break;
                 case "i+":
                     System.out.println("Įveskite norimą pajamų ID: ");
@@ -74,6 +83,29 @@ public class Programa {
                     List<IslaiduIrasas> islaidos = objB.spausdintiIslaidas();
                     islaidos
                             .forEach(System.out::println);
+                    break;
+                case "r":
+                    System.out.println("Redaguoti pajamas [1] ar išlaidas [2]?");
+                    int whichOne = scanner.nextInt();
+                    if (whichOne == 1) {
+                        System.out.println("================== Pajamos =======================");
+                        List<PajamuIrasas> rpajamos = objB.spausdintiPajamas();
+                        rpajamos
+                                .forEach(System.out::println);
+                        System.out.println("Pasirinkite norimo redaguoti įrašo id: ");
+                        int choice = scanner.nextInt();
+                        Irasas beingEdited = objB.gautiPajamuIrasa(choice);
+                        objB.atnaujintiIrasa(beingEdited);
+                    } else if (whichOne == 2) {
+                        System.out.println("================== Išlaidos =======================");
+                        List<IslaiduIrasas> rislaidos = objB.spausdintiIslaidas();
+                        rislaidos
+                                .forEach(System.out::println);
+                        System.out.println("Pasirinkite norimo redaguoti įrašo id: ");
+                        int choice = scanner.nextInt();
+                        Irasas beingEdited = objB.gautiIslaiduIrasa(choice);
+                        objB.atnaujintiIrasa(beingEdited);
+                    }
                     break;
                 case "tp":
                     System.out.println("================== Visi pajamų įrašai =======================");
