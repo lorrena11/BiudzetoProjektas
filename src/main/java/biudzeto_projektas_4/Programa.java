@@ -1,5 +1,11 @@
 package biudzeto_projektas_4;
 
+import biudzeto_projektas_4.model.Irasas;
+import biudzeto_projektas_4.model.IslaiduIrasas;
+import biudzeto_projektas_4.model.PajamuIrasas;
+import biudzeto_projektas_4.service.Biudzetas;
+import biudzeto_projektas_4.service.IrasaiGenerator;
+
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.List;

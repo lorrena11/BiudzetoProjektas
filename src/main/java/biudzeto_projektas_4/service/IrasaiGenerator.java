@@ -1,4 +1,8 @@
-package biudzeto_projektas_4;
+package biudzeto_projektas_4.service;
+
+import biudzeto_projektas_4.model.Irasas;
+import biudzeto_projektas_4.model.IslaiduIrasas;
+import biudzeto_projektas_4.model.PajamuIrasas;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,7 +13,7 @@ import java.util.List;
  */
 public class IrasaiGenerator {
 
-    static List<Irasas> generate() {
+    public static List<Irasas> generate() {
         List<Irasas> sablonai = new ArrayList<>();
         sablonai.add(new PajamuIrasas(0L, LocalDateTime.now(), 10, "komentaras", "kategorija", "tipas"));
         sablonai.add(new PajamuIrasas(1L, LocalDateTime.now(), 27.50, "komentarasss", "išmoka", "grynieji"));

@@ -1,4 +1,8 @@
-package biudzeto_projektas_4;
+package biudzeto_projektas_4.service;
+
+import biudzeto_projektas_4.model.Irasas;
+import biudzeto_projektas_4.model.IslaiduIrasas;
+import biudzeto_projektas_4.model.PajamuIrasas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +15,7 @@ public class Biudzetas {
     private List<PajamuIrasas> pajamos = new ArrayList<>();
     private List<IslaiduIrasas> islaidos = new ArrayList<>();
 
-    void pridetiIrasa(Irasas irasas) {
+    public void pridetiIrasa(Irasas irasas) {
         if (irasas instanceof PajamuIrasas) {
             pajamos.add((PajamuIrasas) irasas);
         } else if (irasas instanceof IslaiduIrasas) {
@@ -19,31 +23,31 @@ public class Biudzetas {
         }
     }
 
-    PajamuIrasas gautiPajamuIrasa(int id) {
+    public PajamuIrasas gautiPajamuIrasa(int id) {
             return pajamos.get(id);
     }
 
-    IslaiduIrasas gautiIslaiduIrasa(int id) {
+    public IslaiduIrasas gautiIslaiduIrasa(int id) {
         return islaidos.get(id);
     }
 
-    PajamuIrasas trintiPajamuIrasa(int id) {
+    public PajamuIrasas trintiPajamuIrasa(int id) {
         return pajamos.remove(id);
     }
 
-    IslaiduIrasas trintiIslaiduIrasa(int id) {
+    public IslaiduIrasas trintiIslaiduIrasa(int id) {
         return islaidos.remove(id);
     }
 
-    List<PajamuIrasas> spausdintiPajamas() {
+    public List<PajamuIrasas> spausdintiPajamas() {
         return pajamos;
     }
 
-    List<IslaiduIrasas> spausdintiIslaidas() {
+    public List<IslaiduIrasas> spausdintiIslaidas() {
         return islaidos;
     }
 
-    double balansas() {
+    public double balansas() {
         double balansas;
         double pajamosSuma = 0;
         double islaidosSuma = 0;
@@ -58,7 +62,7 @@ public class Biudzetas {
         return balansas;
     }
 
-    void atnaujintiIrasa(Irasas irasas) {
+    public void atnaujintiIrasa(Irasas irasas) {
         Scanner scanner = new Scanner(System.in);
 
         for (PajamuIrasas pajamuIrasas : pajamos) {
@@ -131,7 +135,6 @@ public class Biudzetas {
                     System.out.println("Įveskite naują reikšmę: ");
                     String newKomentaras = scanner.next();
                     islaiduIrasas.setKomentaras(newKomentaras);
-
                 }
             }
         }

@@ -1,4 +1,4 @@
-package biudzeto_projektas_4;
+package biudzeto_projektas_4.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
