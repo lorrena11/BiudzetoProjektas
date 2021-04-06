@@ -1,10 +1,15 @@
-package biudzeto_projektas_3;
+package biudzeto_projektas_4;
 
-import java.text.SimpleDateFormat;
+import biudzeto_projektas_4.model.Irasas;
+import biudzeto_projektas_4.model.IslaiduIrasas;
+import biudzeto_projektas_4.model.PajamuIrasas;
+import biudzeto_projektas_4.service.Biudzetas;
+import biudzeto_projektas_4.service.IrasaiGenerator;
+
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 public class Programa {
     private static long idpajamos = 0;
@@ -29,7 +34,7 @@ public class Programa {
             System.out.println("**********************************************");
             System.out.println("Pasirinkite ka norite daryti: ");
             System.out.println(
-                            "[v] - visi irasai; [-] - ivesti islaidas; [+] - ivesti pajamas; \n" +
+                    "[v] - visi irasai; [-] - ivesti islaidas; [+] - ivesti pajamas; \n" +
                             "[tp] ar [ti] - trinti irasa; [i+] ar [i-] - perziuret kuri nors pajamu ar islaidu irasa; \n" +
                             "[r] - redaguoti kurį nors įrašą; [b] - balansas; [x] - iseiti.");
             System.out.println("**********************************************");
@@ -79,15 +84,29 @@ public class Programa {
                     break;
                 case "i+":
                     System.out.println("Įveskite norimą pajamų ID: ");
-                    int pIndex = scanner.nextInt();
-                    PajamuIrasas pi = objB.gautiPajamuIrasa(pIndex);
-                    System.out.println(pi.toString());
+                    try {
+                        int pIndex = scanner.nextInt();
+                        PajamuIrasas pi = objB.gautiPajamuIrasa(pIndex);
+                        System.out.println(pi.toString());
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("Pajamų įrašas su šiuo ID nerastas");
+                    } catch (InputMismatchException e) {
+                        System.out.println("Netinkamai įvestas ID");
+                        scanner.next();
+                    }
                     break;
                 case "i-":
                     System.out.println("Įveskite norimą išlaidų ID: ");
-                    int iIndex = scanner.nextInt();
-                    IslaiduIrasas ii = objB.gautiIslaiduIrasa(iIndex);
-                    System.out.println(ii.toString());
+                    try {
+                        int iIndex = scanner.nextInt();
+                        IslaiduIrasas ii = objB.gautiIslaiduIrasa(iIndex);
+                        System.out.println(ii.toString());
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("Išlaidų įrašas su šiuo ID nerastas");
+                    } catch (InputMismatchException e) {
+                        System.out.println("Netinkamai įvestas ID");
+                        scanner.next();
+                    }
                     break;
                 case "v":
                     System.out.println("================== Pajamos =======================");
@@ -100,26 +119,39 @@ public class Programa {
                             .forEach(System.out::println);
                     break;
                 case "r":
-                    System.out.println("Redaguoti pajamas [1] ar išlaidas [2]?");
-                    int whichOne = scanner.nextInt();
-                    if (whichOne == 1) {
-                        System.out.println("================== Pajamos =======================");
-                        List<PajamuIrasas> rpajamos = objB.spausdintiPajamas();
-                        rpajamos
-                                .forEach(System.out::println);
-                        System.out.println("Pasirinkite norimo redaguoti įrašo id: ");
-                        int choice = scanner.nextInt();
-                        Irasas beingEdited = objB.gautiPajamuIrasa(choice);
-                        objB.atnaujintiIrasa(beingEdited);
-                    } else if (whichOne == 2) {
-                        System.out.println("================== Išlaidos =======================");
-                        List<IslaiduIrasas> rislaidos = objB.spausdintiIslaidas();
-                        rislaidos
-                                .forEach(System.out::println);
-                        System.out.println("Pasirinkite norimo redaguoti įrašo id: ");
-                        int choice = scanner.nextInt();
-                        Irasas beingEdited = objB.gautiIslaiduIrasa(choice);
-                        objB.atnaujintiIrasa(beingEdited);
+                    boolean redaguoja = true;
+                    while (redaguoja) {
+                        System.out.println("Redaguoti pajamas [1] ar išlaidas [2]?");
+                        System.out.println("[3] - grįžti atgal");
+                        try {
+                            int whichOne = scanner.nextInt();
+                            if (whichOne == 1) {
+                                System.out.println("================== Pajamos =======================");
+                                List<PajamuIrasas> rpajamos = objB.spausdintiPajamas();
+                                rpajamos
+                                        .forEach(System.out::println);
+                                System.out.println("Pasirinkite norimo redaguoti įrašo id: ");
+                                int choice = scanner.nextInt();
+                                Irasas beingEdited = objB.gautiPajamuIrasa(choice);
+                                objB.atnaujintiIrasa(beingEdited);
+                            } else if (whichOne == 2) {
+                                System.out.println("================== Išlaidos =======================");
+                                List<IslaiduIrasas> rislaidos = objB.spausdintiIslaidas();
+                                rislaidos
+                                        .forEach(System.out::println);
+                                System.out.println("Pasirinkite norimo redaguoti įrašo id: ");
+                                int choice = scanner.nextInt();
+                                Irasas beingEdited = objB.gautiIslaiduIrasa(choice);
+                                objB.atnaujintiIrasa(beingEdited);
+                            } else if (whichOne == 3) {
+                                redaguoja = false;
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Netinkamai įvesti duomenys");
+                            scanner.next();
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println("Įrašas su šiuo ID nerastas");
+                        }
                     }
                     break;
                 case "tp":
@@ -128,9 +160,16 @@ public class Programa {
                     tpajamos
                             .forEach(System.out::println);
                     System.out.println("Įveskite norimą pajamų ID: ");
-                    int pID = scanner.nextInt();
-                    objB.trintiPajamuIrasa(pID);
-                    System.out.println("Ištrinta.");
+                    try {
+                        int pID = scanner.nextInt();
+                        objB.trintiPajamuIrasa(pID);
+                        System.out.println("Ištrinta.");
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("Įrašo su šiuo ID nėra");
+                    } catch (InputMismatchException e) {
+                        System.out.println("Netinkamas ID");
+                        scanner.next();
+                    }
                     break;
                 case "ti":
                     System.out.println("================== Visi išlaidų įrašai =======================");
@@ -138,9 +177,16 @@ public class Programa {
                     tislaidos
                             .forEach(System.out::println);
                     System.out.println("Įveskite norimą išlaidų ID: ");
-                    int iID = scanner.nextInt();
-                    objB.trintiIslaiduIrasa(iID);
-                    System.out.println("Ištrinta.");
+                    try {
+                        int iID = scanner.nextInt();
+                        objB.trintiIslaiduIrasa(iID);
+                        System.out.println("Ištrinta.");
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("Įrašo su šiuo ID nėra");
+                    } catch (InputMismatchException e) {
+                        System.out.println("Netinkamas ID");
+                        scanner.next();
+                    }
                     break;
                 case "b":
                     System.out.println(objB.balansas() + " eur");
